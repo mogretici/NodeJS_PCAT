@@ -1,0 +1,24 @@
+{
+  "name": "nodejs_pcat",
+  "version": "1.0.0",
+  "description": "PCAT Photo App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mogretici/NodeJS_PCAT.git"
+  },
+  "keywords": [
+    "photo",
+    "app",
+    "camera"
+  ],
+  "author": "Lütfü Öğretici",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mogretici/NodeJS_PCAT/issues"
+  },
+  "homepage": "https://github.com/mogretici/NodeJS_PCAT#readme"
+}
