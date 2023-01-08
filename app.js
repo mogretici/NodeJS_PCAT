@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const express = require("express");
-const ejs = require("ejs");
-const path = require("path");
-const Photo = require("./models/Photo");
-
+const fileUpload = require("express-fileupload");
+const methodOverride = require("method-override");
+const photoControllers = require("./controllers/photoControllers");
+const pageControllers = require("./controllers/pageControllers");
 const app = express();
 const port = 3000;
 
@@ -18,30 +18,25 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(fileUpload());
+app.use(
+  methodOverride("_method", {
+    methods: ["POST", "GET"],
+  })
+);
 
-//routes
-app.get("/", async (req, res) => {
-  const photos = await Photo.find();
-  res.render("index", {
-    photos,
-  });
-});
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-app.get("/add", (req, res) => {
-  res.render("add");
-});
-app.get("/photo/:id", async (req, res) => {
-  const photo = await Photo.findById(req.params.id);
-  res.render("photo", {
-    photo,
-  });
-});
-app.post("/add", async (req, res) => {
-  await Photo.create(req.body);
-  res.redirect("/");
-});
 app.listen(port, () => {
   console.log(`Server started on port: ${port}`);
 });
+
+//page_routes
+app.get("/photo/edit/:id", pageControllers.getEditPage);
+app.get("/about", pageControllers.getAboutPage);
+app.get("/add", pageControllers.getAddPage);
+
+//photo_routes
+app.get("/photo/:id", photoControllers.getPhoto);
+app.get("/", photoControllers.getAllPhotos);
+app.put("/photo/:id", photoControllers.updatePhoto);
+app.delete("/photo/:id", photoControllers.deletePhoto);
+app.post("/add", photoControllers.createPhoto);
